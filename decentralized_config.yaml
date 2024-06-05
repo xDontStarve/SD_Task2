@@ -1,0 +1,7 @@
+nodes:
+  - id: <node_1_ID>
+    ip: <node_1_IP>
+    port: <node_1_Port>
+  - id: <node_2_ID>
+    ip: <node_2_IP>
+    port: <node_2_Port>
