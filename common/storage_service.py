@@ -17,4 +17,3 @@ class StorageService:
     def get_value(self, key) -> str:
         return self.data.get(key)
 
-storage = StorageService()

@@ -1,5 +1,4 @@
-from asyncio import futures
-from centralized_nodes.master_node import MasterServicer
+from concurrent import futures
 import grpc
 import proto.store_pb2_grpc as RPC
 
@@ -7,9 +6,9 @@ import proto.store_pb2_grpc as RPC
 
 class GRPCService:
     @staticmethod
-    def masterListen(port: int) -> any:
+    def listen(port: int, servicer) -> any:
         server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-        RPC.add_KeyValueStoreServicer_to_server(MasterServicer(), server)
+        RPC.add_KeyValueStoreServicer_to_server(servicer, server)
         port = server.add_insecure_port(f'0.0.0.0:{port}')
         server.start()
         return server, port

@@ -12,7 +12,7 @@ class ConfigReader:
         return self.config_data['master']['port']
 
     def get_slave_ip(self, slave_id):
-        return self.config_data['slaves'][slave_id]['ip']
+        return self.config_data['slaves'][int(slave_id)]['ip']
 
     def get_slave_port(self, slave_id):
-        return self.config_data['slaves'][slave_id]['port']
+        return self.config_data['slaves'][int(slave_id)]['port']

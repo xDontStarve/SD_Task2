@@ -3,7 +3,7 @@
 import grpc
 import warnings
 
-import store_pb2 as store__pb2
+import proto.store_pb2 as store__pb2
 
 GRPC_GENERATED_VERSION = '1.64.1'
 GRPC_VERSION = grpc.__version__
