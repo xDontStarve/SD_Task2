@@ -2,6 +2,7 @@ import signal
 import sys
 import os
 
+
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/../proto')
 sys.path.append(os.getcwd())
 
@@ -14,7 +15,8 @@ import yaml
 import logging
 import random
 import concurrent.futures
-import store_pb2, store_pb2_grpc
+from proto import store_pb2_grpc
+from proto import store_pb2
 from tabulate import tabulate
 
 
@@ -97,7 +99,7 @@ class TestCentralizedSystem(unittest.TestCase):
     def start_grpc_server(self):
         """Start the gRPC server as a subprocess."""
         project_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
-        server_script_path = os.path.join(project_dir, 'centralized_nodes.py')
+        server_script_path = os.path.join(project_dir, 'centralized.py')
         server_process = subprocess.Popen([sys.executable, server_script_path])
         time.sleep(2)
         return server_process

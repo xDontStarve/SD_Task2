@@ -35,7 +35,7 @@ class MasterServicer(RPC.KeyValueStoreServicer):
 
     def prepare(self, request: PrepareRequest, context, **kwargs) -> PrepareResponse:
         print("[Error] Master node does not accept prepare requests")
-        return PrepareResponse()
+        return PrepareResponse(transactionId="", voteCommit=False)
 
     def commit(self, request: CommitRequest, context, **kwargs) -> Empty:
         print("[Error] Master node does not accept commit requests")

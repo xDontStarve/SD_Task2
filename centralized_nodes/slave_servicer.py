@@ -19,28 +19,28 @@ class SlaveServicer(RPC.KeyValueStoreServicer):
     # Real response should be created in the service, here we create the response
     def put(self, request: PutRequest, context, **kwargs) -> PutResponse:
         print("[Error] slave node does not accept put requests")
-        return PutResponse(False)
+        return PutResponse(success=False)
 
     def get(self, request: GetRequest, context, **kwargs) -> GetResponse:
         print("Get received by the slave node, with delay", self.delay, ". Key: ", request.key)
         time.sleep(self.delay)
-        return GetResponse(self.nodeService.get(request.key))
+        return self.nodeService.get(request.key)
 
     def slowDown(self, request: SlowDownRequest, context, **kwargs) -> SlowDownResponse:
         print("Slow down request received by the slave node, delay: ", request.seconds)
         self.delay = request.seconds
-        return SlowDownResponse(True)
+        return SlowDownResponse(success=True)
 
     def restore(self, request: RestoreRequest, context, **kwargs) -> RestoreResponse:
         print("Restore request received by the slave node")
         self.delay = 0
-        return RestoreResponse(True)
+        return RestoreResponse(success=True)
 
     def prepare(self, request: PrepareRequest, context, **kwargs) -> PrepareResponse:
         print("Prepare request received by slave node with delay", self.delay, ", transactionID: ",
-              request.transactionId)
+              request.transactionId, "Key: ", request.key, " Value: ", request.value)
         time.sleep(self.delay)
-        return PrepareResponse(self.nodeService.prepare(request.transactionId, request.key, request.value))
+        return self.nodeService.prepare(request.transactionId, request.key, request.value)
 
     def commit(self, request: CommitRequest, context, **kwargs) -> Empty:
         print("Commit request received bt the slave node with delay", self.delay, ", transactionID: ",
