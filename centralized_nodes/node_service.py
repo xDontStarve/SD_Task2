@@ -9,8 +9,8 @@ from proto.store_pb2 import *
 
 class NodeService:
 
-    def __init__(self):
-        self.storage = StorageService()
+    def __init__(self, id:str):
+        self.storage = StorageService(f"storage_{id}")
 
     def put(self, key: str, value: str) -> bool:
         transactionIdList = {}

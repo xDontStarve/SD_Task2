@@ -18,12 +18,11 @@ def main():
     # since server.start() will not block,
     # a sleep-loop is added to keep alive
     try:
-        masterStub = GRPCService.connect("localhost:32770")
-        putResponse = masterStub.put(store_pb2.PutRequest(key="key", value="value"))
-        slave0Stub = GRPCService.connect("localhost:32771")
-        slave0Stub.put(store_pb2.PutRequest(key="key", value="value"))
-        response = slave0Stub.get(store_pb2.GetRequest(key="key"))
-        print("get request from slave 0  returns:", response)
+        #asterStub = GRPCService.connect("localhost:32770")
+        #putResponse = masterStub.put(store_pb2.PutRequest(key="key", value="value"))
+        #slave0Stub = GRPCService.connect("localhost:32771")
+        #response = slave0Stub.get(store_pb2.GetRequest(key="key"))
+        #print("get request from slave 0  returns:", response)
         while True:
             time.sleep(86400)
     except KeyboardInterrupt:
