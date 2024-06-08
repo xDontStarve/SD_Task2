@@ -5,7 +5,7 @@ import warnings
 
 import store_pb2 as store__pb2
 
-GRPC_GENERATED_VERSION = '1.63.0'
+GRPC_GENERATED_VERSION = '1.64.1'
 GRPC_VERSION = grpc.__version__
 EXPECTED_ERROR_RELEASE = '1.65.0'
 SCHEDULED_RELEASE_DATE = 'June 25, 2024'
@@ -67,17 +67,12 @@ class KeyValueStoreStub(object):
         self.commit = channel.unary_unary(
                 '/distributedstore.KeyValueStore/commit',
                 request_serializer=store__pb2.CommitRequest.SerializeToString,
-                response_deserializer=store__pb2.CommitResponse.FromString,
-                _registered_method=True)
-        self.abort = channel.unary_unary(
-                '/distributedstore.KeyValueStore/abort',
-                request_serializer=store__pb2.AbortRequest.SerializeToString,
-                response_deserializer=store__pb2.AbortResponse.FromString,
+                response_deserializer=store__pb2.Empty.FromString,
                 _registered_method=True)
         self.registerNode = channel.unary_unary(
                 '/distributedstore.KeyValueStore/registerNode',
                 request_serializer=store__pb2.NodeInfo.SerializeToString,
-                response_deserializer=store__pb2.NodeRegisterResponse.FromString,
+                response_deserializer=store__pb2.Empty.FromString,
                 _registered_method=True)
 
 
@@ -120,12 +115,6 @@ class KeyValueStoreServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def abort(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
     def registerNode(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -163,22 +152,18 @@ def add_KeyValueStoreServicer_to_server(servicer, server):
             'commit': grpc.unary_unary_rpc_method_handler(
                     servicer.commit,
                     request_deserializer=store__pb2.CommitRequest.FromString,
-                    response_serializer=store__pb2.CommitResponse.SerializeToString,
-            ),
-            'abort': grpc.unary_unary_rpc_method_handler(
-                    servicer.abort,
-                    request_deserializer=store__pb2.AbortRequest.FromString,
-                    response_serializer=store__pb2.AbortResponse.SerializeToString,
+                    response_serializer=store__pb2.Empty.SerializeToString,
             ),
             'registerNode': grpc.unary_unary_rpc_method_handler(
                     servicer.registerNode,
                     request_deserializer=store__pb2.NodeInfo.FromString,
-                    response_serializer=store__pb2.NodeRegisterResponse.SerializeToString,
+                    response_serializer=store__pb2.Empty.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
             'distributedstore.KeyValueStore', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
+    server.add_registered_method_handlers('distributedstore.KeyValueStore', rpc_method_handlers)
 
 
  # This class is part of an EXPERIMENTAL API.
@@ -336,34 +321,7 @@ class KeyValueStore(object):
             target,
             '/distributedstore.KeyValueStore/commit',
             store__pb2.CommitRequest.SerializeToString,
-            store__pb2.CommitResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def abort(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/distributedstore.KeyValueStore/abort',
-            store__pb2.AbortRequest.SerializeToString,
-            store__pb2.AbortResponse.FromString,
+            store__pb2.Empty.FromString,
             options,
             channel_credentials,
             insecure,
@@ -390,7 +348,7 @@ class KeyValueStore(object):
             target,
             '/distributedstore.KeyValueStore/registerNode',
             store__pb2.NodeInfo.SerializeToString,
-            store__pb2.NodeRegisterResponse.FromString,
+            store__pb2.Empty.FromString,
             options,
             channel_credentials,
             insecure,

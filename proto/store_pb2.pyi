@@ -1,7 +1,6 @@
-from google.protobuf.internal import containers as _containers
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
-from typing import ClassVar as _ClassVar, Iterable as _Iterable, Mapping as _Mapping, Optional as _Optional, Union as _Union
+from typing import ClassVar as _ClassVar, Optional as _Optional
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
@@ -60,12 +59,14 @@ class Empty(_message.Message):
     def __init__(self) -> None: ...
 
 class PrepareRequest(_message.Message):
-    __slots__ = ("transactionId", "updates")
+    __slots__ = ("transactionId", "key", "value")
     TRANSACTIONID_FIELD_NUMBER: _ClassVar[int]
-    UPDATES_FIELD_NUMBER: _ClassVar[int]
+    KEY_FIELD_NUMBER: _ClassVar[int]
+    VALUE_FIELD_NUMBER: _ClassVar[int]
     transactionId: str
-    updates: _containers.RepeatedCompositeFieldContainer[KeyValueUpdate]
-    def __init__(self, transactionId: _Optional[str] = ..., updates: _Optional[_Iterable[_Union[KeyValueUpdate, _Mapping]]] = ...) -> None: ...
+    key: str
+    value: str
+    def __init__(self, transactionId: _Optional[str] = ..., key: _Optional[str] = ..., value: _Optional[str] = ...) -> None: ...
 
 class PrepareResponse(_message.Message):
     __slots__ = ("transactionId", "voteCommit")
@@ -81,36 +82,6 @@ class CommitRequest(_message.Message):
     transactionId: str
     def __init__(self, transactionId: _Optional[str] = ...) -> None: ...
 
-class CommitResponse(_message.Message):
-    __slots__ = ("transactionId", "success")
-    TRANSACTIONID_FIELD_NUMBER: _ClassVar[int]
-    SUCCESS_FIELD_NUMBER: _ClassVar[int]
-    transactionId: str
-    success: bool
-    def __init__(self, transactionId: _Optional[str] = ..., success: bool = ...) -> None: ...
-
-class AbortRequest(_message.Message):
-    __slots__ = ("transactionId",)
-    TRANSACTIONID_FIELD_NUMBER: _ClassVar[int]
-    transactionId: str
-    def __init__(self, transactionId: _Optional[str] = ...) -> None: ...
-
-class AbortResponse(_message.Message):
-    __slots__ = ("transactionId", "success")
-    TRANSACTIONID_FIELD_NUMBER: _ClassVar[int]
-    SUCCESS_FIELD_NUMBER: _ClassVar[int]
-    transactionId: str
-    success: bool
-    def __init__(self, transactionId: _Optional[str] = ..., success: bool = ...) -> None: ...
-
-class KeyValueUpdate(_message.Message):
-    __slots__ = ("key", "value")
-    KEY_FIELD_NUMBER: _ClassVar[int]
-    VALUE_FIELD_NUMBER: _ClassVar[int]
-    key: str
-    value: str
-    def __init__(self, key: _Optional[str] = ..., value: _Optional[str] = ...) -> None: ...
-
 class NodeInfo(_message.Message):
     __slots__ = ("node_id", "ip", "port")
     NODE_ID_FIELD_NUMBER: _ClassVar[int]
@@ -120,9 +91,3 @@ class NodeInfo(_message.Message):
     ip: str
     port: int
     def __init__(self, node_id: _Optional[str] = ..., ip: _Optional[str] = ..., port: _Optional[int] = ...) -> None: ...
-
-class NodeRegisterResponse(_message.Message):
-    __slots__ = ("success",)
-    SUCCESS_FIELD_NUMBER: _ClassVar[int]
-    success: bool
-    def __init__(self, success: bool = ...) -> None: ...

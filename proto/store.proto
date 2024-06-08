@@ -1,5 +1,8 @@
 syntax = "proto3";
 
+// to compile
+// python3 -m grpc_tools.protoc -I./ --python_out=. --grpc_python_out=. --pyi_out=. ./store.proto
+
 package distributedstore;
 
 service KeyValueStore {
@@ -13,11 +16,9 @@ service KeyValueStore {
 
   rpc prepare(PrepareRequest) returns (PrepareResponse);
 
-  rpc commit(CommitRequest) returns (CommitResponse);
+  rpc commit(CommitRequest) returns (Empty);
 
-  rpc abort(AbortRequest) returns (AbortResponse);
-
-  rpc registerNode(NodeInfo) returns (NodeRegisterResponse);
+  rpc registerNode(NodeInfo) returns (Empty);
 
 }
 
@@ -60,7 +61,8 @@ message Empty {
 // Messages for 2PC operations
 message PrepareRequest {
   string transactionId = 1;
-  repeated KeyValueUpdate updates = 2;
+  string key = 2;
+  string value = 3;
 }
 
 message PrepareResponse {
@@ -72,31 +74,8 @@ message CommitRequest {
   string transactionId = 1;
 }
 
-message CommitResponse {
-  string transactionId = 1;
-  bool success = 2;
-}
-
-message AbortRequest {
-  string transactionId = 1;
-}
-
-message AbortResponse {
-  string transactionId = 1;
-  bool success = 2;
-}
-
-message KeyValueUpdate {
-  string key = 1;
-  string value = 2;
-}
-
 message NodeInfo {
   string node_id = 1;
   string ip = 2;
   int32 port = 3;
-}
-
-message NodeRegisterResponse {
-  bool success = 1;
 }

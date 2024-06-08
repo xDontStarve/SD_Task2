@@ -1,4 +1,5 @@
 import proto.store_pb2_grpc as RPC
+from common.storage_service import storage
 from proto.store_pb2 import *
 
 
@@ -8,27 +9,25 @@ class MasterServicer(RPC.KeyValueStoreServicer):
         return PutResponse(MasterService.put(request.key, request.value))
 
     def get(self, request: GetRequest, context, **kwargs) -> GetResponse:
-        pass
+        return GetResponse(MasterService.get(request.key))
 
     def slowDown(self, request: SlowDownRequest, context, **kwargs) -> SlowDownResponse:
-        pass
+        return SlowDownResponse(MasterService.slowDown(request.seconds))
 
     def restore(self, request: RestoreRequest, context, **kwargs) -> RestoreResponse:
-        pass
+        return RestoreResponse(MasterService.restore())
 
     def prepare(self, request: PrepareRequest, context, **kwargs) -> PrepareResponse:
-        pass
+        return PrepareResponse(MasterService.prepare(request.transactionId, request.key, request.value))
 
-    def commit(self, request: CommitRequest, context, **kwargs) -> CommitResponse:
-        pass
+    def commit(self, request: CommitRequest, context, **kwargs) -> None:
+        MasterService.commit(request.transactionId)
 
-    def abort(self, request: AbortRequest, context, **kwargs) -> AbortResponse:
-        pass
-
-    def registerNode(self, nodeInfo: NodeInfo, context, **kwargs) -> NodeRegisterResponse:
-        pass
+    def registerNode(self, nodeInfo: NodeInfo, context, **kwargs) -> None:
+        MasterService.registerNode(nodeInfo.node_id, nodeInfo.ip, nodeInfo.port)
 
 class MasterService:
+
     @staticmethod
     def put(self, key: str, value: str) -> bool:
         # TODO: Here we calculate the result (bool)
@@ -36,29 +35,25 @@ class MasterService:
         ...
 
     @staticmethod
-    def get(self, request: GetRequest) -> GetResponse:
+    def get(self, key: str) -> (str, bool):
         pass
 
     @staticmethod
-    def slowDown(self, request: SlowDownRequest) -> SlowDownResponse:
+    def slowDown(self, seconds: int) -> bool:
         pass
 
     @staticmethod
-    def restore(self, request: RestoreRequest) -> RestoreResponse:
+    def restore(self) -> bool:
         pass
 
     @staticmethod
-    def prepare(self, request: PrepareRequest) -> PrepareResponse:
+    def prepare(self, transactionId: str, key: str, value:str) -> (str, bool):
         pass
 
     @staticmethod
-    def commit(self, request: CommitRequest) -> CommitResponse:
+    def commit(self, transactionId: str) -> None:
         pass
 
     @staticmethod
-    def abort(self, request: AbortRequest) -> AbortResponse:
-        pass
-
-    @staticmethod
-    def registerNode(self, nodeInfo: NodeInfo) -> NodeRegisterResponse:
+    def registerNode(self, node_id: str, ip: str, port: int) -> None:
         pass

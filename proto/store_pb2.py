@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0bstore.proto\x12\x10\x64istributedstore\"(\n\nPutRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\"\x1e\n\x0bPutResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"\x19\n\nGetRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\"+\n\x0bGetResponse\x12\r\n\x05value\x18\x01 \x01(\t\x12\r\n\x05\x66ound\x18\x02 \x01(\x08\"\"\n\x0fSlowDownRequest\x12\x0f\n\x07seconds\x18\x01 \x01(\x05\"#\n\x10SlowDownResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"\x10\n\x0eRestoreRequest\"\"\n\x0fRestoreResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"\x07\n\x05\x45mpty\"Z\n\x0ePrepareRequest\x12\x15\n\rtransactionId\x18\x01 \x01(\t\x12\x31\n\x07updates\x18\x02 \x03(\x0b\x32 .distributedstore.KeyValueUpdate\"<\n\x0fPrepareResponse\x12\x15\n\rtransactionId\x18\x01 \x01(\t\x12\x12\n\nvoteCommit\x18\x02 \x01(\x08\"&\n\rCommitRequest\x12\x15\n\rtransactionId\x18\x01 \x01(\t\"8\n\x0e\x43ommitResponse\x12\x15\n\rtransactionId\x18\x01 \x01(\t\x12\x0f\n\x07success\x18\x02 \x01(\x08\"%\n\x0c\x41\x62ortRequest\x12\x15\n\rtransactionId\x18\x01 \x01(\t\"7\n\rAbortResponse\x12\x15\n\rtransactionId\x18\x01 \x01(\t\x12\x0f\n\x07success\x18\x02 \x01(\x08\",\n\x0eKeyValueUpdate\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\"5\n\x08NodeInfo\x12\x0f\n\x07node_id\x18\x01 \x01(\t\x12\n\n\x02ip\x18\x02 \x01(\t\x12\x0c\n\x04port\x18\x03 \x01(\x05\"\'\n\x14NodeRegisterResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x32\xf5\x04\n\rKeyValueStore\x12\x42\n\x03put\x12\x1c.distributedstore.PutRequest\x1a\x1d.distributedstore.PutResponse\x12\x42\n\x03get\x12\x1c.distributedstore.GetRequest\x1a\x1d.distributedstore.GetResponse\x12Q\n\x08slowDown\x12!.distributedstore.SlowDownRequest\x1a\".distributedstore.SlowDownResponse\x12N\n\x07restore\x12 .distributedstore.RestoreRequest\x1a!.distributedstore.RestoreResponse\x12N\n\x07prepare\x12 .distributedstore.PrepareRequest\x1a!.distributedstore.PrepareResponse\x12K\n\x06\x63ommit\x12\x1f.distributedstore.CommitRequest\x1a .distributedstore.CommitResponse\x12H\n\x05\x61\x62ort\x12\x1e.distributedstore.AbortRequest\x1a\x1f.distributedstore.AbortResponse\x12R\n\x0cregisterNode\x12\x1a.distributedstore.NodeInfo\x1a&.distributedstore.NodeRegisterResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0bstore.proto\x12\x10\x64istributedstore\"(\n\nPutRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\"\x1e\n\x0bPutResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"\x19\n\nGetRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\"+\n\x0bGetResponse\x12\r\n\x05value\x18\x01 \x01(\t\x12\r\n\x05\x66ound\x18\x02 \x01(\x08\"\"\n\x0fSlowDownRequest\x12\x0f\n\x07seconds\x18\x01 \x01(\x05\"#\n\x10SlowDownResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"\x10\n\x0eRestoreRequest\"\"\n\x0fRestoreResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"\x07\n\x05\x45mpty\"C\n\x0ePrepareRequest\x12\x15\n\rtransactionId\x18\x01 \x01(\t\x12\x0b\n\x03key\x18\x02 \x01(\t\x12\r\n\x05value\x18\x03 \x01(\t\"<\n\x0fPrepareResponse\x12\x15\n\rtransactionId\x18\x01 \x01(\t\x12\x12\n\nvoteCommit\x18\x02 \x01(\x08\"&\n\rCommitRequest\x12\x15\n\rtransactionId\x18\x01 \x01(\t\"5\n\x08NodeInfo\x12\x0f\n\x07node_id\x18\x01 \x01(\t\x12\n\n\x02ip\x18\x02 \x01(\t\x12\x0c\n\x04port\x18\x03 \x01(\x05\x32\x93\x04\n\rKeyValueStore\x12\x42\n\x03put\x12\x1c.distributedstore.PutRequest\x1a\x1d.distributedstore.PutResponse\x12\x42\n\x03get\x12\x1c.distributedstore.GetRequest\x1a\x1d.distributedstore.GetResponse\x12Q\n\x08slowDown\x12!.distributedstore.SlowDownRequest\x1a\".distributedstore.SlowDownResponse\x12N\n\x07restore\x12 .distributedstore.RestoreRequest\x1a!.distributedstore.RestoreResponse\x12N\n\x07prepare\x12 .distributedstore.PrepareRequest\x1a!.distributedstore.PrepareResponse\x12\x42\n\x06\x63ommit\x12\x1f.distributedstore.CommitRequest\x1a\x17.distributedstore.Empty\x12\x43\n\x0cregisterNode\x12\x1a.distributedstore.NodeInfo\x1a\x17.distributedstore.Emptyb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -40,23 +40,13 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_EMPTY']._serialized_start=306
   _globals['_EMPTY']._serialized_end=313
   _globals['_PREPAREREQUEST']._serialized_start=315
-  _globals['_PREPAREREQUEST']._serialized_end=405
-  _globals['_PREPARERESPONSE']._serialized_start=407
-  _globals['_PREPARERESPONSE']._serialized_end=467
-  _globals['_COMMITREQUEST']._serialized_start=469
-  _globals['_COMMITREQUEST']._serialized_end=507
-  _globals['_COMMITRESPONSE']._serialized_start=509
-  _globals['_COMMITRESPONSE']._serialized_end=565
-  _globals['_ABORTREQUEST']._serialized_start=567
-  _globals['_ABORTREQUEST']._serialized_end=604
-  _globals['_ABORTRESPONSE']._serialized_start=606
-  _globals['_ABORTRESPONSE']._serialized_end=661
-  _globals['_KEYVALUEUPDATE']._serialized_start=663
-  _globals['_KEYVALUEUPDATE']._serialized_end=707
-  _globals['_NODEINFO']._serialized_start=709
-  _globals['_NODEINFO']._serialized_end=762
-  _globals['_NODEREGISTERRESPONSE']._serialized_start=764
-  _globals['_NODEREGISTERRESPONSE']._serialized_end=803
-  _globals['_KEYVALUESTORE']._serialized_start=806
-  _globals['_KEYVALUESTORE']._serialized_end=1435
+  _globals['_PREPAREREQUEST']._serialized_end=382
+  _globals['_PREPARERESPONSE']._serialized_start=384
+  _globals['_PREPARERESPONSE']._serialized_end=444
+  _globals['_COMMITREQUEST']._serialized_start=446
+  _globals['_COMMITREQUEST']._serialized_end=484
+  _globals['_NODEINFO']._serialized_start=486
+  _globals['_NODEINFO']._serialized_end=539
+  _globals['_KEYVALUESTORE']._serialized_start=542
+  _globals['_KEYVALUESTORE']._serialized_end=1073
 # @@protoc_insertion_point(module_scope)
