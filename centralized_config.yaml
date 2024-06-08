@@ -1,11 +1,11 @@
 master:
-  ip: <IP>
-  port: <Port>
+  ip: 127.0.0.1
+  port: 32770
 
 slaves:
-  - id: <slave_1_ID>
-    ip: <slave_1_IP>
-    port: <slave_1_Port>
-  - id: <slave_2_ID>
-    ip: <slave_2_IP>
-    port: <slave_2_Port>
+  - id: 1
+    ip: 127.0.0.1
+    port: 32771
+  - id: 2
+    ip: 127.0.0.1
+    port: 32772
