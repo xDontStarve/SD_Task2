@@ -82,6 +82,12 @@ class CommitRequest(_message.Message):
     transactionId: str
     def __init__(self, transactionId: _Optional[str] = ...) -> None: ...
 
+class CommitResponse(_message.Message):
+    __slots__ = ("success",)
+    SUCCESS_FIELD_NUMBER: _ClassVar[int]
+    success: bool
+    def __init__(self, success: bool = ...) -> None: ...
+
 class NodeInfo(_message.Message):
     __slots__ = ("node_id", "ip", "port")
     NODE_ID_FIELD_NUMBER: _ClassVar[int]

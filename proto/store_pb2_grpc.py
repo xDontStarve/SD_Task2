@@ -67,7 +67,7 @@ class KeyValueStoreStub(object):
         self.commit = channel.unary_unary(
                 '/distributedstore.KeyValueStore/commit',
                 request_serializer=store__pb2.CommitRequest.SerializeToString,
-                response_deserializer=store__pb2.Empty.FromString,
+                response_deserializer=store__pb2.CommitResponse.FromString,
                 _registered_method=True)
         self.registerNode = channel.unary_unary(
                 '/distributedstore.KeyValueStore/registerNode',
@@ -152,7 +152,7 @@ def add_KeyValueStoreServicer_to_server(servicer, server):
             'commit': grpc.unary_unary_rpc_method_handler(
                     servicer.commit,
                     request_deserializer=store__pb2.CommitRequest.FromString,
-                    response_serializer=store__pb2.Empty.SerializeToString,
+                    response_serializer=store__pb2.CommitResponse.SerializeToString,
             ),
             'registerNode': grpc.unary_unary_rpc_method_handler(
                     servicer.registerNode,
@@ -321,7 +321,7 @@ class KeyValueStore(object):
             target,
             '/distributedstore.KeyValueStore/commit',
             store__pb2.CommitRequest.SerializeToString,
-            store__pb2.Empty.FromString,
+            store__pb2.CommitResponse.FromString,
             options,
             channel_credentials,
             insecure,

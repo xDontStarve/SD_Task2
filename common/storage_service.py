@@ -27,7 +27,11 @@ class StorageService:
     def load_data_from_file(self):
         try:
             with open(self.file_path, 'r') as file:
-                self.data = json.load(file)
+                file_content = file.read()
+                if file_content:
+                    self.data = json.loads(file_content)
+                else:
+                    self.data = {}
         except FileNotFoundError:
             pass
 

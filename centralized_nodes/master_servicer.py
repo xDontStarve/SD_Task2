@@ -13,7 +13,7 @@ class MasterServicer(RPC.KeyValueStoreServicer):
 
     # Real response should be created in the service, here we create the response
     def put(self, request: PutRequest, context, **kwargs) -> PutResponse:
-        print("[MASTER]Put received by the master node, with delay", self.delay, ". Key: ", request.key, " value: ",
+        print("[MASTER] Put received by the master node, with delay", self.delay, ". Key: ", request.key, " value: ",
               request.value)
         time.sleep(self.delay)
         return PutResponse(success=self.nodeService.put(request.key, request.value))
@@ -37,9 +37,9 @@ class MasterServicer(RPC.KeyValueStoreServicer):
         print("[MASTER] [Error] Master node does not accept prepare requests")
         return PrepareResponse(transactionId="", voteCommit=False)
 
-    def commit(self, request: CommitRequest, context, **kwargs) -> Empty:
+    def commit(self, request: CommitRequest, context, **kwargs) -> CommitResponse:
         print("[MASTER] [Error] Master node does not accept commit requests")
-        return Empty()
+        return CommitResponse(success=False)
 
     def registerNode(self, nodeInfo: NodeInfo, context, **kwargs) -> Empty:
         print("[MASTER] Node registration received by the master node, ip: ", nodeInfo.ip, " Port: ", nodeInfo.port)

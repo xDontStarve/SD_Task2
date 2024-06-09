@@ -16,7 +16,7 @@ service KeyValueStore {
 
   rpc prepare(PrepareRequest) returns (PrepareResponse);
 
-  rpc commit(CommitRequest) returns (Empty);
+  rpc commit(CommitRequest) returns (CommitResponse);
 
   rpc registerNode(NodeInfo) returns (Empty);
 
@@ -72,6 +72,10 @@ message PrepareResponse {
 
 message CommitRequest {
   string transactionId = 1;
+}
+
+message CommitResponse {
+  bool success = 1;
 }
 
 message NodeInfo {
