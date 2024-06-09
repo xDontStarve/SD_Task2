@@ -7,6 +7,8 @@ from centralized_nodes.slave_servicer import SlaveServicer
 from proto import store_pb2
 import threading
 
+from proto.store_pb2 import SlowDownRequest
+
 script_dir = os.path.dirname(os.path.realpath(__file__))
 
 def test():
@@ -18,17 +20,12 @@ def main():
     config_path = os.path.join(script_dir, "eval/centralized_config.yaml")
     configReader = ConfigReader(config_path)
     masterServer, port = GRPCService.listen(configReader.get_master_port(), MasterServicer())
-    time.sleep(1)
     slave0Server, port = GRPCService.listen(configReader.get_slave_port(0), SlaveServicer("0"))
     slave1Server, port = GRPCService.listen(configReader.get_slave_port(1), SlaveServicer("1"))
 
     # since server.start() will not block,
     # a sleep-loop is added to keep alive
     try:
-        masterStub = GRPCService.connect("localhost:32770")
-        putResponse = masterStub.put(store_pb2.PutRequest(key="key", value="value"))
-        threading.Thread(target=test).start()
-        print("After get request.")
         while True:
             time.sleep(86400)
     except KeyboardInterrupt:

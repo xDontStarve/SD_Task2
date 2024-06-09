@@ -3,9 +3,9 @@ import os
 script_dir = os.path.dirname(os.path.realpath(__file__))
 
 file_list = [
-    os.path.join(script_dir, "storage_0"),
-    os.path.join(script_dir, "storage_1"),
-    os.path.join(script_dir, "storage_master")
+    os.path.join(script_dir, "eval/storage_0"),
+    os.path.join(script_dir, "eval/storage_1"),
+    os.path.join(script_dir, "eval/storage_master")
 ]
 
 def empty_files(file_list):

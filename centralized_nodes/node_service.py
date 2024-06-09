@@ -1,3 +1,4 @@
+import time
 import uuid
 
 from common.storage_service import StorageService
@@ -12,38 +13,51 @@ class NodeService:
     def __init__(self, id:str):
         self.storage = StorageService(f"storage_{id}")
 
-    def put(self, key: str, value: str) -> bool:
+    def put(self, key: str, value: str, delay: int) -> bool:
+        time.sleep(delay)
         transactionIdList = {}
         transactionId = str(uuid.uuid4())
         for node in node_registrator.get_all_nodes():
             node_socket = f"{node.ip}:{node.port}"
             client = GRPCService.connect(node_socket)
-            response = client.prepare(PrepareRequest(transactionId=transactionId, key=key, value=value))
+            try:
+                response = client.prepare(PrepareRequest(transactionId=transactionId, key=key, value=value), timeout=0.02)
+            except Exception as e:
+                print("[MASTER] [ERROR] One of the nodes took too long to respond during prepare phase, put operation failed.")
+                return False
             transactionIdList[node_socket] = response.transactionId
             print("[Master] Node", node.node_id, ". Vote: ", response.voteCommit, "For transaction: ", transactionIdList[node_socket])
-            if response.voteCommit == False:
+            if not response.voteCommit:
                 return False
         self.storage.add_pair(key, value)
         # Commit in other nodes
         for node in node_registrator.get_all_nodes():
             node_socket = f"{node.ip}:{node.port}"
             client = GRPCService.connect(node_socket)
-            commitResponse = client.commit(CommitRequest(transactionId=transactionIdList[node_socket]))
+            try:
+                commitResponse = client.commit(CommitRequest(transactionId=transactionIdList[node_socket]), timeout=0.02)
+            except Exception as e:
+                print("[MASTER] One of the nodes took too long to respond during commit phase, put operation failed.")
+                return False
             if (commitResponse.success == False):
+                # This case shouldn't happen, but if it does, some nodes may already have stored the data.
                 return False
             print("[Master] Node ", node.node_id, "Committed successfully the transaction: ", transactionIdList[node_socket])
         return True
 
-    def get(self, key: str) -> GetResponse:
+    def get(self, key: str, delay: int) -> GetResponse:
+        time.sleep(delay)
         if (self.storage.get_value(key) is None):
             return GetResponse(value=self.storage.get_value(key), found=False)
         return GetResponse(value=self.storage.get_value(key), found=True)
 
-    def prepare(self, transactionId: str, key: str, value: str) -> PrepareResponse:
+    def prepare(self, transactionId: str, key: str, value: str, delay: int) -> PrepareResponse:
+        time.sleep(delay)
         transaction_service.store_value(transactionId, key, value)
         return PrepareResponse(transactionId=transactionId, voteCommit=True)
 
-    def commit(self, transactionId: str) -> CommitResponse:
+    def commit(self, transactionId: str, delay: int) -> CommitResponse:
+        time.sleep(delay)
         (key, value) = transaction_service.get_value(transactionId)
         if (key == None or value == None):
             return CommitResponse(success=False)

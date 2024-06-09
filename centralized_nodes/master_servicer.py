@@ -15,13 +15,11 @@ class MasterServicer(RPC.KeyValueStoreServicer):
     def put(self, request: PutRequest, context, **kwargs) -> PutResponse:
         print("[MASTER] Put received by the master node, with delay", self.delay, ". Key: ", request.key, " value: ",
               request.value)
-        time.sleep(self.delay)
-        return PutResponse(success=self.nodeService.put(request.key, request.value))
+        return PutResponse(success=self.nodeService.put(request.key, request.value, self.delay))
 
     def get(self, request: GetRequest, context, **kwargs) -> GetResponse:
         print("[MASTER]Get received by the master node, with delay", self.delay, ". Key: ", request.key)
-        time.sleep(self.delay)
-        return self.nodeService.get(request.key)
+        return self.nodeService.get(request.key, self.delay)
 
     def slowDown(self, request: SlowDownRequest, context, **kwargs) -> SlowDownResponse:
         print("[MASTER]Slow down request received by the master node, delay: ", request.seconds)

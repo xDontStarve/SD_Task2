@@ -1,9 +1,10 @@
-from proto.store_pb2 import *
+import os
+
 import proto.store_pb2_grpc as RPC
-from common.config_reader import ConfigReader
-import time, os
-from common.grpc_service import GRPCService
 from centralized_nodes.node_service import NodeService
+from common.config_reader import ConfigReader
+from common.grpc_service import GRPCService
+from proto.store_pb2 import *
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
 class SlaveServicer(RPC.KeyValueStoreServicer):
@@ -11,7 +12,7 @@ class SlaveServicer(RPC.KeyValueStoreServicer):
 
     def __init__(self, id: str):
         print("[NODE] Initializing slave ", id)
-        self.id=id
+        self.id = id
         config_path = os.path.join(script_dir, "../eval/centralized_config.yaml")
         configReader = ConfigReader(config_path)
         master = GRPCService.connect(f"{configReader.get_master_ip()}:{configReader.get_master_port()}")
@@ -25,8 +26,7 @@ class SlaveServicer(RPC.KeyValueStoreServicer):
 
     def get(self, request: GetRequest, context, **kwargs) -> GetResponse:
         print("[NODE] Get received by the slave node, with delay", self.delay, ". Key: ", request.key)
-        time.sleep(self.delay)
-        return self.nodeService.get(request.key)
+        return self.nodeService.get(request.key, self.delay)
 
     def slowDown(self, request: SlowDownRequest, context, **kwargs) -> SlowDownResponse:
         print("[NODE] Slow down request received by the slave node", self.id, ", delay: ", request.seconds)
@@ -41,14 +41,12 @@ class SlaveServicer(RPC.KeyValueStoreServicer):
     def prepare(self, request: PrepareRequest, context, **kwargs) -> PrepareResponse:
         print("[NODE] Prepare request received by slave node", self.id, " with delay", self.delay, ", transactionID: ",
               request.transactionId, "Key: ", request.key, " Value: ", request.value)
-        time.sleep(self.delay)
-        return self.nodeService.prepare(request.transactionId, request.key, request.value)
+        return self.nodeService.prepare(request.transactionId, request.key, request.value, self.delay)
 
     def commit(self, request: CommitRequest, context, **kwargs) -> CommitResponse:
         print("[NODE] Commit request received bt the slave node", self.id, " with delay", self.delay, ", transactionID: ",
               request.transactionId)
-        time.sleep(self.delay)
-        return self.nodeService.commit(request.transactionId)
+        return self.nodeService.commit(request.transactionId, self.delay)
 
     def registerNode(self, nodeInfo: NodeInfo, context, **kwargs) -> Empty:
         print("[NODE] [Error] Slave node", self.id, " does not accept registerNode requests")
