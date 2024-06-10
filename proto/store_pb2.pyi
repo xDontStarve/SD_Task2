@@ -4,6 +4,32 @@ from typing import ClassVar as _ClassVar, Optional as _Optional
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
+class ReadVoteRequest(_message.Message):
+    __slots__ = ("key",)
+    KEY_FIELD_NUMBER: _ClassVar[int]
+    key: str
+    def __init__(self, key: _Optional[str] = ...) -> None: ...
+
+class ReadVoteResponse(_message.Message):
+    __slots__ = ("vote", "value")
+    VOTE_FIELD_NUMBER: _ClassVar[int]
+    VALUE_FIELD_NUMBER: _ClassVar[int]
+    vote: int
+    value: str
+    def __init__(self, vote: _Optional[int] = ..., value: _Optional[str] = ...) -> None: ...
+
+class WriteVoteRequest(_message.Message):
+    __slots__ = ("key",)
+    KEY_FIELD_NUMBER: _ClassVar[int]
+    key: str
+    def __init__(self, key: _Optional[str] = ...) -> None: ...
+
+class WriteVoteResponse(_message.Message):
+    __slots__ = ("vote",)
+    VOTE_FIELD_NUMBER: _ClassVar[int]
+    vote: int
+    def __init__(self, vote: _Optional[int] = ...) -> None: ...
+
 class PutRequest(_message.Message):
     __slots__ = ("key", "value")
     KEY_FIELD_NUMBER: _ClassVar[int]

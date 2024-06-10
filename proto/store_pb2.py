@@ -14,41 +14,49 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0bstore.proto\x12\x10\x64istributedstore\"(\n\nPutRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\"\x1e\n\x0bPutResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"\x19\n\nGetRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\"+\n\x0bGetResponse\x12\r\n\x05value\x18\x01 \x01(\t\x12\r\n\x05\x66ound\x18\x02 \x01(\x08\"\"\n\x0fSlowDownRequest\x12\x0f\n\x07seconds\x18\x01 \x01(\x05\"#\n\x10SlowDownResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"\x10\n\x0eRestoreRequest\"\"\n\x0fRestoreResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"\x07\n\x05\x45mpty\"C\n\x0ePrepareRequest\x12\x15\n\rtransactionId\x18\x01 \x01(\t\x12\x0b\n\x03key\x18\x02 \x01(\t\x12\r\n\x05value\x18\x03 \x01(\t\"<\n\x0fPrepareResponse\x12\x15\n\rtransactionId\x18\x01 \x01(\t\x12\x12\n\nvoteCommit\x18\x02 \x01(\x08\"&\n\rCommitRequest\x12\x15\n\rtransactionId\x18\x01 \x01(\t\"!\n\x0e\x43ommitResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"5\n\x08NodeInfo\x12\x0f\n\x07node_id\x18\x01 \x01(\t\x12\n\n\x02ip\x18\x02 \x01(\t\x12\x0c\n\x04port\x18\x03 \x01(\x05\x32\x9c\x04\n\rKeyValueStore\x12\x42\n\x03put\x12\x1c.distributedstore.PutRequest\x1a\x1d.distributedstore.PutResponse\x12\x42\n\x03get\x12\x1c.distributedstore.GetRequest\x1a\x1d.distributedstore.GetResponse\x12Q\n\x08slowDown\x12!.distributedstore.SlowDownRequest\x1a\".distributedstore.SlowDownResponse\x12N\n\x07restore\x12 .distributedstore.RestoreRequest\x1a!.distributedstore.RestoreResponse\x12N\n\x07prepare\x12 .distributedstore.PrepareRequest\x1a!.distributedstore.PrepareResponse\x12K\n\x06\x63ommit\x12\x1f.distributedstore.CommitRequest\x1a .distributedstore.CommitResponse\x12\x43\n\x0cregisterNode\x12\x1a.distributedstore.NodeInfo\x1a\x17.distributedstore.Emptyb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0bstore.proto\x12\x10\x64istributedstore\"\x1e\n\x0fReadVoteRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\"/\n\x10ReadVoteResponse\x12\x0c\n\x04vote\x18\x01 \x01(\x05\x12\r\n\x05value\x18\x02 \x01(\t\"\x1f\n\x10WriteVoteRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\"!\n\x11WriteVoteResponse\x12\x0c\n\x04vote\x18\x01 \x01(\x05\"(\n\nPutRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\"\x1e\n\x0bPutResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"\x19\n\nGetRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\"+\n\x0bGetResponse\x12\r\n\x05value\x18\x01 \x01(\t\x12\r\n\x05\x66ound\x18\x02 \x01(\x08\"\"\n\x0fSlowDownRequest\x12\x0f\n\x07seconds\x18\x01 \x01(\x05\"#\n\x10SlowDownResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"\x10\n\x0eRestoreRequest\"\"\n\x0fRestoreResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"\x07\n\x05\x45mpty\"C\n\x0ePrepareRequest\x12\x15\n\rtransactionId\x18\x01 \x01(\t\x12\x0b\n\x03key\x18\x02 \x01(\t\x12\r\n\x05value\x18\x03 \x01(\t\"<\n\x0fPrepareResponse\x12\x15\n\rtransactionId\x18\x01 \x01(\t\x12\x12\n\nvoteCommit\x18\x02 \x01(\x08\"&\n\rCommitRequest\x12\x15\n\rtransactionId\x18\x01 \x01(\t\"!\n\x0e\x43ommitResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"5\n\x08NodeInfo\x12\x0f\n\x07node_id\x18\x01 \x01(\t\x12\n\n\x02ip\x18\x02 \x01(\t\x12\x0c\n\x04port\x18\x03 \x01(\x05\x32\xc5\x05\n\rKeyValueStore\x12\x42\n\x03put\x12\x1c.distributedstore.PutRequest\x1a\x1d.distributedstore.PutResponse\x12\x42\n\x03get\x12\x1c.distributedstore.GetRequest\x1a\x1d.distributedstore.GetResponse\x12Q\n\x08slowDown\x12!.distributedstore.SlowDownRequest\x1a\".distributedstore.SlowDownResponse\x12N\n\x07restore\x12 .distributedstore.RestoreRequest\x1a!.distributedstore.RestoreResponse\x12N\n\x07prepare\x12 .distributedstore.PrepareRequest\x1a!.distributedstore.PrepareResponse\x12K\n\x06\x63ommit\x12\x1f.distributedstore.CommitRequest\x1a .distributedstore.CommitResponse\x12\x43\n\x0cregisterNode\x12\x1a.distributedstore.NodeInfo\x1a\x17.distributedstore.Empty\x12Q\n\x08readVote\x12!.distributedstore.ReadVoteRequest\x1a\".distributedstore.ReadVoteResponse\x12T\n\twriteVote\x12\".distributedstore.WriteVoteRequest\x1a#.distributedstore.WriteVoteResponseb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'store_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals['_PUTREQUEST']._serialized_start=33
-  _globals['_PUTREQUEST']._serialized_end=73
-  _globals['_PUTRESPONSE']._serialized_start=75
-  _globals['_PUTRESPONSE']._serialized_end=105
-  _globals['_GETREQUEST']._serialized_start=107
-  _globals['_GETREQUEST']._serialized_end=132
-  _globals['_GETRESPONSE']._serialized_start=134
-  _globals['_GETRESPONSE']._serialized_end=177
-  _globals['_SLOWDOWNREQUEST']._serialized_start=179
-  _globals['_SLOWDOWNREQUEST']._serialized_end=213
-  _globals['_SLOWDOWNRESPONSE']._serialized_start=215
-  _globals['_SLOWDOWNRESPONSE']._serialized_end=250
-  _globals['_RESTOREREQUEST']._serialized_start=252
-  _globals['_RESTOREREQUEST']._serialized_end=268
-  _globals['_RESTORERESPONSE']._serialized_start=270
-  _globals['_RESTORERESPONSE']._serialized_end=304
-  _globals['_EMPTY']._serialized_start=306
-  _globals['_EMPTY']._serialized_end=313
-  _globals['_PREPAREREQUEST']._serialized_start=315
-  _globals['_PREPAREREQUEST']._serialized_end=382
-  _globals['_PREPARERESPONSE']._serialized_start=384
-  _globals['_PREPARERESPONSE']._serialized_end=444
-  _globals['_COMMITREQUEST']._serialized_start=446
-  _globals['_COMMITREQUEST']._serialized_end=484
-  _globals['_COMMITRESPONSE']._serialized_start=486
-  _globals['_COMMITRESPONSE']._serialized_end=519
-  _globals['_NODEINFO']._serialized_start=521
-  _globals['_NODEINFO']._serialized_end=574
-  _globals['_KEYVALUESTORE']._serialized_start=577
-  _globals['_KEYVALUESTORE']._serialized_end=1117
+  _globals['_READVOTEREQUEST']._serialized_start=33
+  _globals['_READVOTEREQUEST']._serialized_end=63
+  _globals['_READVOTERESPONSE']._serialized_start=65
+  _globals['_READVOTERESPONSE']._serialized_end=112
+  _globals['_WRITEVOTEREQUEST']._serialized_start=114
+  _globals['_WRITEVOTEREQUEST']._serialized_end=145
+  _globals['_WRITEVOTERESPONSE']._serialized_start=147
+  _globals['_WRITEVOTERESPONSE']._serialized_end=180
+  _globals['_PUTREQUEST']._serialized_start=182
+  _globals['_PUTREQUEST']._serialized_end=222
+  _globals['_PUTRESPONSE']._serialized_start=224
+  _globals['_PUTRESPONSE']._serialized_end=254
+  _globals['_GETREQUEST']._serialized_start=256
+  _globals['_GETREQUEST']._serialized_end=281
+  _globals['_GETRESPONSE']._serialized_start=283
+  _globals['_GETRESPONSE']._serialized_end=326
+  _globals['_SLOWDOWNREQUEST']._serialized_start=328
+  _globals['_SLOWDOWNREQUEST']._serialized_end=362
+  _globals['_SLOWDOWNRESPONSE']._serialized_start=364
+  _globals['_SLOWDOWNRESPONSE']._serialized_end=399
+  _globals['_RESTOREREQUEST']._serialized_start=401
+  _globals['_RESTOREREQUEST']._serialized_end=417
+  _globals['_RESTORERESPONSE']._serialized_start=419
+  _globals['_RESTORERESPONSE']._serialized_end=453
+  _globals['_EMPTY']._serialized_start=455
+  _globals['_EMPTY']._serialized_end=462
+  _globals['_PREPAREREQUEST']._serialized_start=464
+  _globals['_PREPAREREQUEST']._serialized_end=531
+  _globals['_PREPARERESPONSE']._serialized_start=533
+  _globals['_PREPARERESPONSE']._serialized_end=593
+  _globals['_COMMITREQUEST']._serialized_start=595
+  _globals['_COMMITREQUEST']._serialized_end=633
+  _globals['_COMMITRESPONSE']._serialized_start=635
+  _globals['_COMMITRESPONSE']._serialized_end=668
+  _globals['_NODEINFO']._serialized_start=670
+  _globals['_NODEINFO']._serialized_end=723
+  _globals['_KEYVALUESTORE']._serialized_start=726
+  _globals['_KEYVALUESTORE']._serialized_end=1435
 # @@protoc_insertion_point(module_scope)

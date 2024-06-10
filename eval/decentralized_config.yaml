@@ -1,10 +1,10 @@
 nodes:
-  - id: <node_1_ID>
-    ip: <node_1_IP>
-    port: <node_1_Port>
-  - id: <node_2_ID>
-    ip: <node_2_IP>
-    port: <node_2_Port>
-  - id: <node_3_ID>
-    ip: <node_3_IP>
-    port: <node_3_Port>
+  - id: 1
+    ip: localhost
+    port: 32770
+  - id: 2
+    ip: localhost
+    port: 32771
+  - id: 3
+    ip: localhost
+    port: 32772

@@ -20,6 +20,27 @@ service KeyValueStore {
 
   rpc registerNode(NodeInfo) returns (Empty);
 
+  rpc readVote(ReadVoteRequest) returns (ReadVoteResponse);
+
+  rpc writeVote(WriteVoteRequest) returns (WriteVoteResponse);
+
+}
+
+message ReadVoteRequest {
+  string key = 1;
+}
+
+message ReadVoteResponse {
+  int32 vote = 1;
+  string value = 2;
+}
+
+message WriteVoteRequest {
+  string key = 1;
+}
+
+message WriteVoteResponse {
+  int32 vote = 1;
 }
 
 message PutRequest {

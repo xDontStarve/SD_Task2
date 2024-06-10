@@ -41,6 +41,5 @@ class MasterServicer(RPC.KeyValueStoreServicer):
 
     def registerNode(self, nodeInfo: NodeInfo, context, **kwargs) -> Empty:
         print("[MASTER] Node registration received by the master node, ip: ", nodeInfo.ip, " Port: ", nodeInfo.port)
-        time.sleep(self.delay)
         self.nodeService.registerNode(nodeInfo.node_id, nodeInfo.ip, nodeInfo.port)
         return Empty()
