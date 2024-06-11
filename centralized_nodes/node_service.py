@@ -21,7 +21,7 @@ class NodeService:
             node_socket = f"{node.ip}:{node.port}"
             client = GRPCService.connect(node_socket)
             try:
-                response = client.prepare(PrepareRequest(transactionId=transactionId, key=key, value=value), timeout=0.02)
+                response = client.prepare(PrepareRequest(transactionId=transactionId, key=key, value=value))
             except Exception as e:
                 print("[MASTER] [ERROR] One of the nodes took too long to respond during prepare phase, put operation failed.")
                 return False
@@ -35,7 +35,7 @@ class NodeService:
             node_socket = f"{node.ip}:{node.port}"
             client = GRPCService.connect(node_socket)
             try:
-                commitResponse = client.commit(CommitRequest(transactionId=transactionIdList[node_socket]), timeout=0.02)
+                commitResponse = client.commit(CommitRequest(transactionId=transactionIdList[node_socket]))
             except Exception as e:
                 print("[MASTER] One of the nodes took too long to respond during commit phase, put operation failed.")
                 return False
