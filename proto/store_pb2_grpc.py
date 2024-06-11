@@ -84,6 +84,11 @@ class KeyValueStoreStub(object):
                 request_serializer=store__pb2.WriteVoteRequest.SerializeToString,
                 response_deserializer=store__pb2.WriteVoteResponse.FromString,
                 _registered_method=True)
+        self.registerSelfToOtherNodes = channel.unary_unary(
+                '/distributedstore.KeyValueStore/registerSelfToOtherNodes',
+                request_serializer=store__pb2.NodeInfo.SerializeToString,
+                response_deserializer=store__pb2.Empty.FromString,
+                _registered_method=True)
 
 
 class KeyValueStoreServicer(object):
@@ -143,6 +148,12 @@ class KeyValueStoreServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def registerSelfToOtherNodes(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_KeyValueStoreServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -190,6 +201,11 @@ def add_KeyValueStoreServicer_to_server(servicer, server):
                     servicer.writeVote,
                     request_deserializer=store__pb2.WriteVoteRequest.FromString,
                     response_serializer=store__pb2.WriteVoteResponse.SerializeToString,
+            ),
+            'registerSelfToOtherNodes': grpc.unary_unary_rpc_method_handler(
+                    servicer.registerSelfToOtherNodes,
+                    request_deserializer=store__pb2.NodeInfo.FromString,
+                    response_serializer=store__pb2.Empty.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -435,6 +451,33 @@ class KeyValueStore(object):
             '/distributedstore.KeyValueStore/writeVote',
             store__pb2.WriteVoteRequest.SerializeToString,
             store__pb2.WriteVoteResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def registerSelfToOtherNodes(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/distributedstore.KeyValueStore/registerSelfToOtherNodes',
+            store__pb2.NodeInfo.SerializeToString,
+            store__pb2.Empty.FromString,
             options,
             channel_credentials,
             insecure,

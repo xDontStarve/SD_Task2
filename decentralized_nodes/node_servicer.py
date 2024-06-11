@@ -16,34 +16,6 @@ class NodeServicer(RPC.KeyValueStoreServicer):
         print("[NODE", id, "] Initializing node ", id)
         self.id = id
         self.nodeService = NodeService(id)
-        config_path = os.path.join(script_dir, "../eval/decentralized_config.yaml")
-        configReader = ConfigReader(config_path)
-        # Register the node for the other two nodes
-        match id:
-            case "0":
-                self.nodeAStub = GRPCService.connect(f"{configReader.get_node1_ip()}:{configReader.get_node1_port()}")
-                self.nodeBStub = GRPCService.connect(f"{configReader.get_node2_ip()}:{configReader.get_node2_port()}")
-                self.nodeAStub.registerNode(
-                    NodeInfo(node_id=self.id, ip=configReader.get_node0_ip(), port=configReader.get_node0_port()))
-                self.nodeBStub.registerNode(
-                    NodeInfo(node_id=self.id, ip=configReader.get_node0_ip(), port=configReader.get_node0_port()))
-                pass
-            case "1":
-                self.nodeAStub = GRPCService.connect(f"{configReader.get_node0_ip()}:{configReader.get_node0_port()}")
-                self.nodeBStub = GRPCService.connect(f"{configReader.get_node2_ip()}:{configReader.get_node2_port()}")
-                self.nodeAStub.registerNode(
-                    NodeInfo(node_id=self.id, ip=configReader.get_node1_ip(), port=configReader.get_node1_port()))
-                self.nodeBStub.registerNode(
-                    NodeInfo(node_id=self.id, ip=configReader.get_node1_ip(), port=configReader.get_node1_port()))
-                pass
-            case "2":
-                self.nodeAStub = GRPCService.connect(f"{configReader.get_node0_ip()}:{configReader.get_node0_port()}")
-                self.nodeBStub = GRPCService.connect(f"{configReader.get_node1_ip()}:{configReader.get_node1_port()}")
-                self.nodeAStub.registerNode(
-                    NodeInfo(node_id=self.id, ip=configReader.get_node2_ip(), port=configReader.get_node2_port()))
-                self.nodeBStub.registerNode(
-                    NodeInfo(node_id=self.id, ip=configReader.get_node2_ip(), port=configReader.get_node2_port()))
-                pass
 
     def put(self, request: PutRequest, context, **kwargs) -> PutResponse:
         print("[NODE", self.id, "] Put received by the node, with delay", self.delay, ". Key: ", request.key,
@@ -72,7 +44,7 @@ class NodeServicer(RPC.KeyValueStoreServicer):
         return self.nodeService.commit(request.transactionId, self.delay)
 
     def registerNode(self, nodeInfo: NodeInfo, context, **kwargs) -> Empty:
-        print("[NODE", self.id, "] Node registration received by the node, ip: ", nodeInfo.ip, " Port: ",
+        print("[NODE", self.id, "] Node registration received. ip: ", nodeInfo.ip, " Port: ",
               nodeInfo.port)
         self.nodeService.registerNode(nodeInfo.node_id, nodeInfo.ip, nodeInfo.port)
         return Empty()
@@ -83,3 +55,40 @@ class NodeServicer(RPC.KeyValueStoreServicer):
 
     def writeVote(self, request: WriteVoteRequest, context, **kwargs) -> WriteVoteResponse:
         return WriteVoteResponse(vote=self.nodeService.writeVote(request.key, self.id))
+
+    def registerSelfToOtherNodes(self, nodeInfo: NodeInfo, context, **kwargs) -> Empty:
+        config_path = os.path.join(script_dir, "../eval/decentralized_config.yaml")
+        configReader = ConfigReader(config_path)
+        # Register the node for the other two nodes
+        match nodeInfo.node_id:
+            case "0":
+                nodeAStub = GRPCService.connect(f"{configReader.get_node1_ip()}:{configReader.get_node1_port()}")
+                nodeBStub = GRPCService.connect(f"{configReader.get_node2_ip()}:{configReader.get_node2_port()}")
+                nodeAStub.registerNode(
+                    NodeInfo(node_id=self.id, ip=configReader.get_node0_ip(), port=configReader.get_node0_port()))
+                print("Node", id, "registered to node 1")
+                nodeBStub.registerNode(
+                    NodeInfo(node_id=self.id, ip=configReader.get_node0_ip(), port=configReader.get_node0_port()))
+                print("Node", id, "registered to node 2")
+                pass
+            case "1":
+                nodeAStub = GRPCService.connect(f"{configReader.get_node0_ip()}:{configReader.get_node0_port()}")
+                nodeBStub = GRPCService.connect(f"{configReader.get_node2_ip()}:{configReader.get_node2_port()}")
+                nodeAStub.registerNode(
+                    NodeInfo(node_id=self.id, ip=configReader.get_node1_ip(), port=configReader.get_node1_port()))
+                print("Node", id, "registered to node 0")
+                nodeBStub.registerNode(
+                    NodeInfo(node_id=self.id, ip=configReader.get_node1_ip(), port=configReader.get_node1_port()))
+                print("Node", id, "registered to node 2")
+                pass
+            case "2":
+                nodeAStub = GRPCService.connect(f"{configReader.get_node0_ip()}:{configReader.get_node0_port()}")
+                nodeBStub = GRPCService.connect(f"{configReader.get_node1_ip()}:{configReader.get_node1_port()}")
+                nodeAStub.registerNode(
+                    NodeInfo(node_id=self.id, ip=configReader.get_node2_ip(), port=configReader.get_node2_port()))
+                print("Node", id, "registered to node 0")
+                nodeBStub.registerNode(
+                    NodeInfo(node_id=self.id, ip=configReader.get_node2_ip(), port=configReader.get_node2_port()))
+                print("Node", id, "registered to node 1")
+                pass
+        return Empty()

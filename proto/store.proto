@@ -24,6 +24,7 @@ service KeyValueStore {
 
   rpc writeVote(WriteVoteRequest) returns (WriteVoteResponse);
 
+  rpc registerSelfToOtherNodes(NodeInfo) returns (Empty);
 }
 
 message ReadVoteRequest {
