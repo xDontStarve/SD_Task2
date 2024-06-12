@@ -6,7 +6,7 @@ from decentralized_nodes.node_servicer import NodeServicer
 from proto import store_pb2
 import threading
 
-from proto.store_pb2 import SlowDownRequest, NodeInfo
+from proto.store_pb2 import SlowDownRequest, NodeInfo, PutRequest, GetRequest
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
 
@@ -24,6 +24,11 @@ def main():
     node0Stub.registerSelfToOtherNodes(NodeInfo(node_id="0", ip=configReader.get_node0_ip(), port=configReader.get_node0_port()))
     node1Stub.registerSelfToOtherNodes(NodeInfo(node_id="1", ip=configReader.get_node1_ip(), port=configReader.get_node1_port()))
     node2Stub.registerSelfToOtherNodes(NodeInfo(node_id="2", ip=configReader.get_node2_ip(), port=configReader.get_node2_port()))
+
+    print("\n************* | Initialization finished | *************\n")
+
+    #print(node0Stub.put(PutRequest(key="key", value="value")))
+    #print(node1Stub.get(GetRequest(key="key")))
 
 
     # since server.start() will not block,

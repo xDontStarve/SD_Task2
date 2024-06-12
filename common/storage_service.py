@@ -7,12 +7,12 @@ class StorageService:
         self.data = {}
         self.load_data_from_file()
 
-    def add_pair(self, key, value):
+    def add_pair(self, key, value, id: str):
         if value is None or value == "":
-            print("Received empty value, deleting key: ", key, " and its value from storage if it exists")
+            print("[NODE", id, "] Received empty value, deleting key: ", key, " and its value from storage if it exists")
             self.delete_value(key)
         else:
-            print("Adding / Updating value for key: ", key, " With value: ", value)
+            print("[NODE", id, "] Adding / Updating value for key: ", key, " With value: ", value)
             self.data[key] = value
             self.save_data_to_file()
 

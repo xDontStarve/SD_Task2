@@ -10,8 +10,9 @@ from proto.store_pb2 import *
 
 class NodeService:
 
-    def __init__(self, id:str):
-        self.storage = StorageService(f"storage_{id}")
+    def __init__(self, idParam:str):
+        self.id = idParam
+        self.storage = StorageService(f"storage_{self.id}")
 
     def put(self, key: str, value: str, delay: int) -> bool:
         time.sleep(delay)
@@ -29,7 +30,7 @@ class NodeService:
             print("[Master] Node", node.node_id, ". Vote: ", response.voteCommit, "For transaction: ", transactionIdList[node_socket])
             if not response.voteCommit:
                 return False
-        self.storage.add_pair(key, value)
+        self.storage.add_pair(key, value, self.id)
         # Commit in other nodes
         for node in node_registrator.get_all_nodes():
             node_socket = f"{node.ip}:{node.port}"
@@ -61,7 +62,7 @@ class NodeService:
         (key, value) = transaction_service.get_value(transactionId)
         if (key == None or value == None):
             return CommitResponse(success=False)
-        self.storage.add_pair(key, value)
+        self.storage.add_pair(key, value, self.id)
         return CommitResponse(success=True)
 
     def registerNode(self, node_id: str, ip: str, port: int) -> None:

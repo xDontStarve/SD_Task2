@@ -65,3 +65,16 @@ Each component of the project is organized into its respective directory, facili
 
 > **Note:** Students are required to define the necessary stubs for implementing the Two Phase Commit (2PC) protocol and for node registration in the system. These stubs must be manually added to the store.proto file by the students as part of their implementation.
 # SD_Task2
+
+**NOTE: to execute program** 
+Use Python 3.10 (if you use older versions, the match statements will cause errors)
+
+Install packages in requirements.txt:
+
+-->Sudo pip install -r requirement.txt
+
+If you re-compile proto, you might need to add proto. (folder of the proto files) in store_pb2_grpc.py's imports
+
+Run the empty_storages.py to empty all persistent files where nodes save backup data to.
+
+If you want to change the ip / port of any node, refer to eval/centralized_config.yaml / eval/decentralized_config.yaml and change values in those files.

@@ -83,7 +83,7 @@ class TestDecentralizedSystem(unittest.TestCase):
 
     def start_grpc_server(self):
         """Start the gRPC server as a subprocess."""
-        server_script_path = os.path.join('decentralized.py')
+        server_script_path = os.path.join('../decentralized.py')
         server_process = subprocess.Popen(
             [sys.executable, server_script_path]
         )

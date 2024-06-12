@@ -37,11 +37,11 @@ class NodeServicer(RPC.KeyValueStoreServicer):
         self.delay = 0
         return RestoreResponse(success=True)
 
-    def commit(self, request: CommitRequest, context, **kwargs) -> CommitResponse:
+    def doCommit(self, request: DoCommitRequest, context, **kwargs) -> CommitResponse:
         print("[NODE", self.id, "] Commit request received bt the node", self.id, " with delay", self.delay,
-              ", transactionID: ",
-              request.transactionId)
-        return self.nodeService.commit(request.transactionId, self.delay)
+              ", Key: ",
+              request.key)
+        return self.nodeService.doCommit(request.key, request.value, self.delay)
 
     def registerNode(self, nodeInfo: NodeInfo, context, **kwargs) -> Empty:
         print("[NODE", self.id, "] Node registration received. ip: ", nodeInfo.ip, " Port: ",
@@ -50,11 +50,13 @@ class NodeServicer(RPC.KeyValueStoreServicer):
         return Empty()
 
     def readVote(self, request: ReadVoteRequest, context, **kwargs) -> ReadVoteResponse:
-        (vote, value) = self.nodeService.readVote(request.key, self.id)
+        print("[NODE", self.id, "] ReadVote received by the node", self.id)
+        (vote, value) = self.nodeService.readVote(request.key)
         return ReadVoteResponse(vote=vote, value=value)
 
     def writeVote(self, request: WriteVoteRequest, context, **kwargs) -> WriteVoteResponse:
-        return WriteVoteResponse(vote=self.nodeService.writeVote(request.key, self.id))
+        print("[NODE", self.id, "] WriteVote received by the node")
+        return WriteVoteResponse(vote=self.nodeService.writeVote())
 
     def registerSelfToOtherNodes(self, nodeInfo: NodeInfo, context, **kwargs) -> Empty:
         config_path = os.path.join(script_dir, "../eval/decentralized_config.yaml")
@@ -70,7 +72,6 @@ class NodeServicer(RPC.KeyValueStoreServicer):
                 nodeBStub.registerNode(
                     NodeInfo(node_id=self.id, ip=configReader.get_node0_ip(), port=configReader.get_node0_port()))
                 print("Node", id, "registered to node 2")
-                pass
             case "1":
                 nodeAStub = GRPCService.connect(f"{configReader.get_node0_ip()}:{configReader.get_node0_port()}")
                 nodeBStub = GRPCService.connect(f"{configReader.get_node2_ip()}:{configReader.get_node2_port()}")
@@ -80,7 +81,6 @@ class NodeServicer(RPC.KeyValueStoreServicer):
                 nodeBStub.registerNode(
                     NodeInfo(node_id=self.id, ip=configReader.get_node1_ip(), port=configReader.get_node1_port()))
                 print("Node", id, "registered to node 2")
-                pass
             case "2":
                 nodeAStub = GRPCService.connect(f"{configReader.get_node0_ip()}:{configReader.get_node0_port()}")
                 nodeBStub = GRPCService.connect(f"{configReader.get_node1_ip()}:{configReader.get_node1_port()}")
@@ -90,5 +90,4 @@ class NodeServicer(RPC.KeyValueStoreServicer):
                 nodeBStub.registerNode(
                     NodeInfo(node_id=self.id, ip=configReader.get_node2_ip(), port=configReader.get_node2_port()))
                 print("Node", id, "registered to node 1")
-                pass
         return Empty()

@@ -25,6 +25,13 @@ service KeyValueStore {
   rpc writeVote(WriteVoteRequest) returns (WriteVoteResponse);
 
   rpc registerSelfToOtherNodes(NodeInfo) returns (Empty);
+
+  rpc doCommit(DoCommitRequest) returns (Empty);
+}
+
+message DoCommitRequest {
+  string key = 1;
+  string value = 2;
 }
 
 message ReadVoteRequest {

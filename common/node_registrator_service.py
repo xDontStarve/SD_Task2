@@ -6,13 +6,19 @@ class Node:
 
 class NodeRegistrator:
     def __init__(self):
-        self.nodes = []  # Initializing an empty list to store nodes
+        self.nodes = []
 
     def add_node(self, node_id: str, ip: str, port: int):
         node = Node(node_id, ip, port)
-        self.nodes.append(node)  # Adding a new node to the list
+        self.nodes.append(node)
 
     def get_all_nodes(self):
-        return self.nodes  # Returning the list of all nodes
+        return self.nodes
+
+    def get_node_by_id(self, node_id: str):
+        for node in self.nodes:
+            if node.node_id == node_id:
+                return node
+        return None  # Return None if no node matches the given ID
 
 node_registrator = NodeRegistrator()
