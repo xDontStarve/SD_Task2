@@ -6,7 +6,7 @@ import time
 from common.config_reader import ConfigReader
 from common.grpc_service import GRPCService
 from decentralized_nodes.node_servicer import NodeServicer
-from proto.store_pb2 import PutRequest, GetRequest
+from proto.store_pb2 import PutRequest, GetRequest, SlowDownRequest
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
 
@@ -46,7 +46,7 @@ def write(choice: int, node: int):
         values = user_input.split(',')
         key, value = values[0], values[1]
         print("put response:", stub.put(PutRequest(key=key, value=value)))
-    time.sleep(2)
+    time.sleep(1)
 
 def get(choice: int, node: int):
     # Prepare data
@@ -77,7 +77,38 @@ def get(choice: int, node: int):
 
         key = input("Enter the key:")
         print("get response:", stub.get(GetRequest(key=key)))
-    time.sleep(2)
+    time.sleep(1)
+
+def slowDown(choice: int, node: int):
+    # Prepare data
+    if choice == 1:
+        config_path = os.path.join(script_dir, "eval/centralized_config.yaml")
+        configReader = ConfigReader(config_path)
+        match node:
+            case 0:
+                stub = GRPCService.connect(f"{configReader.get_master_ip()}:{configReader.get_master_port()}")
+            case 1:
+                stub = GRPCService.connect(f"{configReader.get_slave_ip(0)}:{configReader.get_slave_port(0)}")
+            case 2:
+                stub = GRPCService.connect(f"{configReader.get_slave_ip(1)}:{configReader.get_slave_port(1)}")
+
+        seconds = input("Enter the seconds to slowdown:")
+        print("get response:", stub.slowDown(SlowDownRequest(seconds=int(seconds))))
+
+    elif choice == 2:
+        config_path = os.path.join(script_dir, "eval/decentralized_config.yaml")
+        configReader = ConfigReader(config_path)
+        match node:
+            case 0:
+                stub = GRPCService.connect(f"{configReader.get_node0_ip()}:{configReader.get_node0_port()}")
+            case 1:
+                stub = GRPCService.connect(f"{configReader.get_node1_ip()}:{configReader.get_node1_port()}")
+            case 2:
+                stub = GRPCService.connect(f"{configReader.get_node2_ip()}:{configReader.get_node2_port()}")
+
+        seconds = input("Enter the seconds to slowdown:")
+        print("get response:", stub.slowDown(SlowDownRequest(seconds=int(seconds))))
+    time.sleep(1)
 
 def main():
     global thread
@@ -102,23 +133,25 @@ def main():
             break
         else:
             print("Invalid choice. Please try again.")
-        time.sleep(2)
+        time.sleep(1)
 
         while True:
             print("\n\n--------------------------------------------------------------------\nChoose one of the three nodes: 0 (master in centralized), 1 or 2")
             print("To exit, enter 3")
-            option = input("Enter your option: ")
+            option = input("Enter your option: \n")
 
             if option in ["0", "1", "2"]:
                 print("1. Put")
                 print("2. Get")
-                print("3. Exit")
+                print("3. Slow Down Node")
                 action = input("Enter your action: ")
 
                 if action == "1":
                     write(int(choice), int(option))
                 elif action == "2":
                     get(int(choice), int(option))
+                elif action == "3":
+                    slowDown(int(choice), int(option))
                 else:
                     print("Invalid action. Please try again.")
             elif option == "3":

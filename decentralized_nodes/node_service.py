@@ -70,10 +70,15 @@ class NodeService:
             thread.join(timeout=0)
 
         # Commit in other nodes
-        for node in node_registrator.get_all_nodes():
-            node_socket = f"{node.ip}:{node.port}"
-            client = GRPCService.connect(node_socket)
-            client.doCommit(DoCommitRequest(key=key, value=value))
+        for node_id in range(3):
+            if str(node_id) == self.id:
+                pass
+            else:
+                node = node_registrator.get_node_by_id(str(node_id))
+                print("Node to commit:", node.ip, node.port)
+                node_socket = f"{node.ip}:{node.port}"
+                client = GRPCService.connect(node_socket)
+                client.doCommit(DoCommitRequest(key=key, value=value))
         return True
 
     def get(self, key: str, delay: int) -> GetResponse:
@@ -133,7 +138,7 @@ class NodeService:
         return self.writeVoteWeight
 
     def askWriteVotes(self, key: str, ip: str, port: str):
-        print(f"[NODE,", self.id,"] connecting to --> {ip}:{port} to ask for write vote")
+        print("[NODE,", self.id,f"] connecting to --> {ip}:{port} to ask for write vote")
         nodeStub = GRPCService.connect(f"{ip}:{port}")
         writeVoteResponse = nodeStub.writeVote(WriteVoteRequest(key=key))
         with self.writeCondition:

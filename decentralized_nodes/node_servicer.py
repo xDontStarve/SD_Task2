@@ -38,7 +38,7 @@ class NodeServicer(RPC.KeyValueStoreServicer):
         return RestoreResponse(success=True)
 
     def doCommit(self, request: DoCommitRequest, context, **kwargs) -> CommitResponse:
-        print("[NODE", self.id, "] Commit request received bt the node", self.id, " with delay", self.delay,
+        print("[NODE", self.id, "] Commit request received by the node", self.id, " with delay", self.delay,
               ", Key: ",
               request.key)
         return self.nodeService.doCommit(request.key, request.value, self.delay)
