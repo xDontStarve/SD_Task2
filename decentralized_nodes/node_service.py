@@ -34,7 +34,7 @@ class NodeService:
 
     def put(self, key: str, value: str, delay: int) -> bool:
         time.sleep(delay)
-        self.writeVoteCount = 0
+        self.writeVoteCount = self.writeVoteWeight
         threads = []
         match self.id:
             case "0":
@@ -75,7 +75,7 @@ class NodeService:
         return True
 
     def get(self, key: str, delay: int) -> GetResponse:
-        self.readVoteCount = 0
+        self.readVoteCount = self.readVoteWeight
         time.sleep(delay)
         threads = []
         match self.id:
