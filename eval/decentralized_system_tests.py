@@ -226,7 +226,7 @@ class TestDecentralizedSystem(unittest.TestCase):
 
         end_time = time.time()
         duration = end_time - start_time
-        print(f"Performed {process_count * operations_per_process * 2} operations in {duration:.2f} seconds (slowing down master).")
+        print(f"Performed {process_count * operations_per_process * 2} operations in {duration:.2f} seconds (slowing down node).")
         
         # Restore
         self.channel, self.stub = self.connect_to_grpc_server() 
