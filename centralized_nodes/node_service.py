@@ -29,6 +29,11 @@ class NodeService:
             transactionIdList[node_socket] = response.transactionId
             print("[Master] Node", node.node_id, ". Vote: ", response.voteCommit, "For transaction: ", transactionIdList[node_socket])
             if not response.voteCommit:
+                # If any node returns False, we need to update all nodes to the old value
+                for node in node_registrator.get_all_nodes():
+                    node_socket = f"{node.ip}:{node.port}"
+                    client = GRPCService.connect(node_socket)
+                    client.doCommit(DoCommitRequest(key=key, value=value))
                 return False
         self.storage.add_pair(key, value, self.id)
         # Commit in other nodes
@@ -55,6 +60,7 @@ class NodeService:
     def prepare(self, transactionId: str, key: str, value: str, delay: int) -> PrepareResponse:
         time.sleep(delay)
         transaction_service.store_value(transactionId, key, value)
+        self.storage.delete_value(key)
         return PrepareResponse(transactionId=transactionId, voteCommit=True)
 
     def commit(self, transactionId: str, delay: int) -> CommitResponse:
@@ -67,3 +73,6 @@ class NodeService:
 
     def registerNode(self, node_id: str, ip: str, port: int) -> None:
         node_registrator.add_node(node_id, ip, port)
+
+    def doCommit(self, key: str, value: str):
+        self.storage.add_pair(key, value, self.id)

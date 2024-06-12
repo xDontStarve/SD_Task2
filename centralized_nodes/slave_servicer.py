@@ -51,3 +51,8 @@ class SlaveServicer(RPC.KeyValueStoreServicer):
     def registerNode(self, nodeInfo: NodeInfo, context, **kwargs) -> Empty:
         print("[NODE] [Error] Slave node", self.id, " does not accept registerNode requests")
         return Empty()
+
+    def doCommit(self, request: DoCommitRequest, context, **kwargs) -> Empty:
+        print("[NODE] Slave node received doCommit request for value:", request.value, "value:", request.value)
+        self.nodeService.doCommit(request.key, request.value)
+        return Empty()
