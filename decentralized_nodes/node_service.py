@@ -66,6 +66,8 @@ class NodeService:
 
         # Clean up: Since we do not want to wait for other threads if they are still processing, we will leave them
         # as zombies, therefore we won't do a thread.join() for all threads
+        for thread in threads:
+            thread.join(timeout=0)
 
         # Commit in other nodes
         for node in node_registrator.get_all_nodes():
@@ -110,6 +112,8 @@ class NodeService:
                 return GetResponse(value=self.storage.get_value(key), found=True)
         # Clean up: Since we do not want to wait for other threads if they are still processing, we will leave them
         # as zombies, therefore we won't do a thread.join() for all threads
+        for thread in threads:
+            thread.join(timeout=0)
 
     def doCommit(self, key: str, value: str, delay: int) -> CommitResponse:
         time.sleep(delay)
